@@ -1,11 +1,10 @@
 import React from 'react'
+import { Hero } from '../../components'
 
 export default function Home() {
   return (
-    <section className='py-24'>
-      <div className="container">
-        <h1 className="text-3xl font-bold"> Next TS Started</h1>
-      </div>
-    </section>
+    <main className="overflow-hidden">
+      <Hero/>
+    </main>
   )
 }
