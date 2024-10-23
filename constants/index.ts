@@ -19,3 +19,10 @@ export const footerLinks = [
         ],
     },
 ]
+
+export const vehicletypes = [
+    "Automovil",
+    "Motocicleta",	
+    "Trailers",
+    "Maquinaria"
+]

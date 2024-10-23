@@ -37,7 +37,7 @@ const Footer = () => {
         </div>
         </div>
         <div className="flex justify-between item-center flex-wrap mt-10 border-t border-gray-100 sm:px-16 px-6 py-10">
-          <p>@2024 EasyWayGPS, SRL. Todos los derechos recervados</p>
+          <p>@2024 EasyWayGPS, SRL. Todos los derechos reservados</p>
           <div className="footer__copyrights-link">
             <Link href="/" className='text-gray-500'>
               Privacy Policy
