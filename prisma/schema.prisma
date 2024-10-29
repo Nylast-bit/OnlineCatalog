@@ -15,8 +15,10 @@ model device {
   deviceType String
   deviceName String
   deviceFeatures String
-  devicePrice Int
+  devicePrice Decimal
   deviceImage String
+  description String?
+  note String?
 }
 
 model plan {
@@ -24,5 +26,8 @@ model plan {
   planType String
   planName String
   planFeatures String
-  planPrice Int
+  planPrice Decimal
+  planImage String
+  description String?
+  note String?
 }
