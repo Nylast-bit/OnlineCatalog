@@ -36,7 +36,7 @@ export async function createDevice(
   try {
     
 
-    const createdBook = await prisma.device.create({
+    const createdDevice = await prisma.device.create({
       data: {
         deviceType: deviceType.toString(),
         deviceName: deviceName.toString(),
@@ -48,7 +48,7 @@ export async function createDevice(
     
     });
 
-    return { success: true, response: createdBook };
+    return { success: true, response: createdDevice };
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);
