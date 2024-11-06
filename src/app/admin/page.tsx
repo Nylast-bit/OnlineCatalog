@@ -5,20 +5,45 @@ import { CustomButton } from '../../../components';
 import { motion, AnimatePresence } from 'framer-motion';  // Importar framer-motion
 import Swal from 'sweetalert2';
 import { useDropzone } from 'react-dropzone';
+import { uploadImage } from '@/server/APIs/cloudinary.api';
+import { image } from 'framer-motion/client';
+import { createPlan, planExists } from '@/server/queries/plan.queries';
+import { create } from 'domain';
 
 
 export default function Admin() {
   const [selectedOption, setSelectedOption] = useState(''); // Estado para almacenar la opción seleccionada
+  const [images, setImages] = useState<string[]>([]);
+
+  const [planType, setPlanType] = useState('');
+  const [planName, setPlanName] = useState('');
+  const [planFeatures, setPlanFeatures] = useState('');
+  const [planPrice, setPlanPrice] = useState('');
+  const [planDescription, setPlanDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState(''); 
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
   };
 
+  async function handleUpload(file: File) {
+    try {
+        const url = await uploadImage(file);
+        setImageUrl(url);
+        console.log("Image URL:", imageUrl); // Haz algo con la URL de la imagen
+    } catch (error) {
+        console.error("Image upload failed:", error);
+    }
+}
 
-  const onDrop = useCallback(async (acceptedFiles) => {
-    acceptedFiles.forEach(file => {
-      
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const newImages = acceptedFiles.map((file) => {
+      // Crear una URL temporal para previsualización
+      return URL.createObjectURL(file);
     });
+
+    // Guardar las imágenes en el estado
+    setImages((prevImages) => [...prevImages, ...newImages]);
   }, []);
 
   const { 
@@ -36,6 +61,17 @@ export default function Admin() {
   
     if (selectedOption === 'plan') {
       
+      if (selectedFile) await handleUpload(selectedFile);
+      
+      createPlan(
+        planType,
+        planName,
+        planFeatures,
+        parseFloat(planPrice),
+        imageUrl,
+        planDescription,
+      );
+      
       Swal.fire({
         icon: 'success',
         title: 'Plan guardado',
@@ -46,6 +82,10 @@ export default function Admin() {
           cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400',
         },
       });
+
+
+      handleUpload(selectedFile);
+      
     } else if (selectedOption === 'equipo') {
       
       Swal.fire({
@@ -59,7 +99,7 @@ export default function Admin() {
         },
       });
     } else {
-      
+
       Swal.fire({
         icon: 'warning',
         title: 'Error',
@@ -69,6 +109,7 @@ export default function Admin() {
           confirmButton: 'bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600',
           cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400',
         },
+        
       });
     }
   };
@@ -113,7 +154,7 @@ export default function Admin() {
                 <Label className="block mb-2 mt-2">Tipo de plan</Label>
                 <Input 
                   className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="planType" 
+                  onChange={(e) => setPlanType(e.target.value)}
                 />
               </Field>
 
@@ -121,7 +162,7 @@ export default function Admin() {
                 <Label className="block mb-2 mt-2">Nombre del plan</Label>
                 <Input 
                   className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="planType" 
+                  onChange={(e) => setPlanName(e.target.value)}
                 />
               </Field>
 
@@ -129,7 +170,7 @@ export default function Admin() {
                 <Label className="block mb-2 mt-2">Features del plan</Label>
                 <Input 
                   className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="planType" 
+                  onChange={(e) => setPlanFeatures(e.target.value)}
                 />
               </Field>
 
@@ -137,7 +178,7 @@ export default function Admin() {
                 <Label className="block mb-2 mt-2">Precio del plan</Label>
                 <Input 
                   className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="planType" 
+                  onChange={(e) => setPlanPrice(e.target.value)}
                 />
               </Field>
 
@@ -147,13 +188,21 @@ export default function Admin() {
                 <input {...getInputProps()} />
                 {
                   isDragActive ? (
-                    <p className='w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white'>Arrastre y suelte el archivo aquí o haga click para seleccionar un archivo</p>
+                    <p className='w-full h-10 px-7 border rounded-lg  text-center  focus:outline-none focus:ring-2 focus:ring-blue-500 text-white'>Suelte el archivo aquí</p>
                   ) : (
-                    <p className='w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer text-white'>Arrastre o haga clic para seleccionar un archivo</p>
+                    <p className='w-full h-10 px-7 mt-3 border rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer text-white'>Arrastre o haga clic para seleccionar un archivo</p>
                   )
                 }
 
               </div>
+
+                <div >
+          {images.map((image, index) => (
+            <div key={index}>
+              <img src={image} alt={`preview ${index}`}  />
+            </div>
+          ))}
+        </div>
 
                 
               </Field>
@@ -163,7 +212,7 @@ export default function Admin() {
                 <Label className="block mb-2 mt-2">Descripción del Plan</Label>
                 <Textarea 
                   className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="planDescription" 
+                  onChange={(e) => setPlanDescription(e.target.value)}
                 />
               </Field>
             </motion.div>
