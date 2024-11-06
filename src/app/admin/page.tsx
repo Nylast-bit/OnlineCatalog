@@ -9,11 +9,13 @@ import { uploadImage } from '@/server/APIs/cloudinary.api';
 import { image } from 'framer-motion/client';
 import { createPlan, planExists } from '@/server/queries/plan.queries';
 import { create } from 'domain';
+import CustomInputField from '../../../components/CustomInputField';
 
 
 export default function Admin() {
   const [selectedOption, setSelectedOption] = useState(''); // Estado para almacenar la opción seleccionada
   const [images, setImages] = useState<string[]>([]);
+  const [notes, setNotes] = useState('');
 
   const [planType, setPlanType] = useState('');
   const [planName, setPlanName] = useState('');
@@ -70,6 +72,7 @@ export default function Admin() {
         parseFloat(planPrice),
         imageUrl,
         planDescription,
+        
       );
       
       Swal.fire({
@@ -123,7 +126,7 @@ export default function Admin() {
           <Legend className="text-xl font-bold flex-1 flex justify-center items-center text-white">Introducir Planes o Equipos</Legend>
 
           <Field className="w-full">
-            <Label className="block mb-1">Seleccione si es plan o equipo</Label>
+            <Label className="block mb-1 text-white">Seleccione si es plan o equipo</Label>
             <Select 
               className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               name="type" 
@@ -140,80 +143,44 @@ export default function Admin() {
           {selectedOption === 'plan' && (
             <>
              <motion.div
-      key="plan"  // Clave única para detectar el cambio
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.5 }}  // Animación de salida
-      transition={{
-        duration: 0.8,
-        delay: 0.3,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-    >
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Tipo de plan</Label>
-                <Input 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onChange={(e) => setPlanType(e.target.value)}
-                />
-              </Field>
+                key="plan"  // Clave única para detectar el cambio
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}  // Animación de salida
+                transition={{
+                  duration: 0.8,
+                  delay: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+              <CustomInputField label="Tipo de plan" onChange={(e) => setPlanType(e.target.value)} />
+              <CustomInputField label="Nombre del plan" onChange={(e) => setPlanName(e.target.value)} />
+              <CustomInputField label="Features del plan" onChange={(e) => setPlanFeatures(e.target.value)} />
+              <CustomInputField label="Precio del plan" onChange={(e) => setPlanPrice(e.target.value)} />
+              <CustomInputField label="Descripción del Plan" onChange={(e) => setPlanDescription(e.target.value)} />
 
               <Field className="w-full">
-                <Label className="block mb-2 mt-2">Nombre del plan</Label>
-                <Input 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onChange={(e) => setPlanName(e.target.value)}
-                />
-              </Field>
-
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Features del plan</Label>
-                <Input 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onChange={(e) => setPlanFeatures(e.target.value)}
-                />
-              </Field>
-
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Precio del plan</Label>
-                <Input 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onChange={(e) => setPlanPrice(e.target.value)}
-                />
-              </Field>
-
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Imagen del plan</Label>
+                <Label className="block mb-2 mt-2 text-white">Imagen del plan</Label>
                 <div className='drop-zone' {...getRootProps()}>
-                <input {...getInputProps()} />
-                {
-                  isDragActive ? (
-                    <p className='w-full h-10 px-7 border rounded-lg  text-center  focus:outline-none focus:ring-2 focus:ring-blue-500 text-white'>Suelte el archivo aquí</p>
-                  ) : (
-                    <p className='w-full h-10 px-7 mt-3 border rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer text-white'>Arrastre o haga clic para seleccionar un archivo</p>
-                  )
-                }
+                  <input {...getInputProps()} />
+                  {
+                    isDragActive ? (
+                      <p className='w-full h-10 px-7 border rounded-lg  text-center  focus:outline-none focus:ring-2 focus:ring-blue-500 text-white'>Suelte el archivo aquí</p>
+                    ) : (
+                      <p className='w-full h-10 px-7 mt-3 border rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer text-white'>Arrastre o haga clic para seleccionar un archivo</p>
+                    )
+                  }
+                </div>
 
+              <div >
+                {images.map((image, index) => (
+                  <div key={index}>
+                    <img src={image} alt={`preview ${index}`}  />
+                  </div>
+                ))}
               </div>
 
-                <div >
-          {images.map((image, index) => (
-            <div key={index}>
-              <img src={image} alt={`preview ${index}`}  />
-            </div>
-          ))}
-        </div>
-
                 
-              </Field>
-
-              
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Descripción del Plan</Label>
-                <Textarea 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onChange={(e) => setPlanDescription(e.target.value)}
-                />
               </Field>
             </motion.div>
             </>
@@ -222,63 +189,46 @@ export default function Admin() {
           {selectedOption === 'equipo' && (
             <>
               <motion.div
-      key="equipo"  // Clave única para la animación de equipo
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.5 }}  // Animación de salida
-      transition={{
-        duration: 0.8,
-        delay: 0.3,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-    >
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Tipo de GPS</Label>
-                <Input 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="equipmentName" 
-                />
+                key="equipo"  // Clave única para la animación de equipo
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}  // Animación de salida
+                transition={{
+                  duration: 0.8,
+                  delay: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <CustomInputField label="Tipo de GPS" onChange={(e) => setPlanType(e.target.value)} />
+                <CustomInputField label="Nombre del plan" onChange={(e) => setPlanName(e.target.value)} />
+                <CustomInputField label="Features del plan" onChange={(e) => setPlanFeatures(e.target.value)} />
+                <CustomInputField label="Precio del plan" onChange={(e) => setPlanPrice(e.target.value)} />
+                <CustomInputField label="Descripción del plan" onChange={(e) => setPlanDescription(e.target.value)} />
+
+                <Field className="w-full">
+                <Label className="block mb-2 mt-2 text-white">Imagen del Equipo</Label>
+                  <div className='drop-zone' {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    {
+                      isDragActive ? (
+                        <p className='w-full h-10 px-7 border rounded-lg  text-center  focus:outline-none focus:ring-2 focus:ring-blue-500 text-white'>Suelte el archivo aquí</p>
+                      ) : (
+                        <p className='w-full h-10 px-7 mt-3 border rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer text-white'>Arrastre o haga clic para seleccionar un archivo</p>
+                      )
+                    }
+                  </div>
+
+                  <div >
+                    {images.map((image, index) => (
+                      <div key={index}>
+                        <img src={image} alt={`preview ${index}`}  />
+                      </div>
+                    ))}
+                  </div>
+
               </Field>
 
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Nombre del Equipo</Label>
-                <Input 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="serialNumber" 
-                />
-              </Field>
-
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Features del Equipo</Label>
-                <Input 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="serialNumber" 
-                />
-              </Field>
-
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Precio del Equipo</Label>
-                <Input 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="serialNumber" 
-                />
-              </Field>
-
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Imagen del Equipo</Label>
-                <Input 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="serialNumber" 
-                />
-              </Field>
-
-              <Field className="w-full">
-                <Label className="block mb-2 mt-2">Descripción del Equipo</Label>
-                <Input 
-                  className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  name="serialNumber" 
-                />
-              </Field>
+              
 
             </motion.div>
             </>
@@ -287,13 +237,7 @@ export default function Admin() {
 
           
 
-          <Field className="w-full">
-            <Label className="block mb-1">Notas</Label>
-              <Textarea 
-                className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                name="Notas"
-              />
-          </Field>
+          <CustomInputField label="Notas" onChange={e => setNotes(e.target.value)} />
         <CustomButton title="Guardar" handleClick={handleClick} containerStyles="bg-primary-700 text-white w-full rounded-lg h-15 mt-4" />  
         </Fieldset>
 

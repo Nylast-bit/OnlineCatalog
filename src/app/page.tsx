@@ -11,13 +11,7 @@ export default function Home() {
 
   const handleClick = async (e: any) => {
     try {
-      const xd = await createDevice(
-        "Normal GPS",
-        "J16",
-        "4G, Hasta 24 horas de bateria, Geocerca",
-        1500,
-        "nada"
-      )
+      
       
       // Actualiza el estado con el dispositivo creado
     } catch (error) {

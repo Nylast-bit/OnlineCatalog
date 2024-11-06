@@ -10,7 +10,7 @@ const Footer = () => {
         {/* Sección Logo y Texto */}
         <div className="flex flex-col justify-start items-start gap-6">
           <Image
-            src="/easylogopng.png"
+            src="/Easylogopng.png"
             alt="EasyWayGPS Logo"
             width={118}
             height={18}
