@@ -8,7 +8,7 @@ interface CustomInputFieldProps {
 const CustomInputField: React.FC<CustomInputFieldProps> = ({ label, onChange }) => {
   return (
     <div className="w-full">
-      <label className="block mb-2 mt-2 text-white">{label}</label>
+      <label className="block mb-1 mt-2 text-white">{label}</label>
       <input 
         type="text"
         className="w-full h-10 px-5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "

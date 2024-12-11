@@ -216,4 +216,11 @@
 .search-list__option {
   @apply cursor-default select-none py-2 pl-10 pr-4;
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;  /* Espacio entre los elementos */
+}
+
 /* END: search list styles */

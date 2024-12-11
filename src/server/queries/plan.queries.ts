@@ -32,7 +32,9 @@ export async function createPlan(
   planFeatures: String,
   planPrice: Number,
   planImage: String,
-  planDescription: String
+  planDescription: String,
+  notes: String
+
 ) {
   try {
     
@@ -45,6 +47,7 @@ export async function createPlan(
         planPrice: (planPrice as number),
         planImage: planImage.toString(),
         description: planDescription.toString(),
+        note: notes.toString(),
       },
             
     
