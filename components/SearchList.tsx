@@ -24,7 +24,7 @@ const SearchList = ({list, setList} : SearchListProps) => {
         <Combobox >
             <div className="relative w-full">
                 <ComboboxButton className="absolute top-[14px]" onClick={handleOnClick}>
-                    <Image src="/car_icon.png" width={20} height={20} className="ml-4" alt="car-logo" />
+                    <Image src="/model-icon.png" width={20} height={20} className="ml-4" alt="car-logo" />
                 </ComboboxButton>
                 
                 <ComboboxInput className="search-list__input" placeholder="Automovil" 

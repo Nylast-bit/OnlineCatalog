@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react'
 import { CustomFilter, Hero, SearchBar } from '../../components'
+import Tile from '../../components/Tile'
 import { createDevice, deviceExists } from '@/server/queries/device.queries'
 import './globals.css'
 import CustomButton from '../../components/CustomButton'
+import TileContainer from '../../components/TileContainer'
 
 export default function Home() {
   const [device, setDevice] = useState<any>(null) // Estado inicial en null
@@ -34,6 +36,7 @@ export default function Home() {
             <CustomFilter title="XXX" /> */}
           </div>
         </div>
+          <TileContainer />
       </div>
       <div className="bg-primary-500 w-full h-{200px}">
       
