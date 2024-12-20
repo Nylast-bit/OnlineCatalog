@@ -34,7 +34,9 @@ export async function createPlan(
   planFeatures: String,
   planPrice: Number,
   planImage: String,
-  planDescription: String
+  planDescription: String,
+  notes: String
+
 ) {
   try {
     
@@ -47,6 +49,7 @@ export async function createPlan(
         planPrice: (planPrice as number),
         planImage: planImage.toString(),
         description: planDescription.toString(),
+        note: notes.toString(),
       },
             
     
@@ -62,45 +65,31 @@ export async function createPlan(
   }
 }
 
-//GET ALL PLANS
-export async function getAllPlans(): Promise<{ success: boolean; response?: any }> {
-  try {
-    const plans = await prisma.plan.findMany(); // Recupera todos los planes
-    return { success: true, response: plans };
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    } else {
-      return { success: false };
-    }
-  }
-}
-
-
-// READ PLAN BY ID
-export async function readPlanById(
+export async function getPlanById(
   id: number
 ): Promise<{ success: boolean; response?: any }> {
   try {
     const plan = await prisma.plan.findUnique({
       where: { planId: id },
     });
-    if (plan) {
-      return { success: true, response: plan };
-    } else {
-      return { success: false, response: "Plan not found" };
-    }
+    return plan
+      ? { success: true, response: plan }
+      : { success: false, response: "Plan not found" };
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    } else {
-      return { success: false };
-    }
+    console.error("Error fetching plan by ID:", error);
+    throw new Error("Error fetching plan by ID.");
   }
 }
 
-
-//UPDATE PLAN 
+export async function getAllPlans(): Promise<{ success: boolean; response?: any }> {
+  try {
+    const plans = await prisma.plan.findMany();
+    return { success: true, response: plans };
+  } catch (error) {
+    console.error("Error fetching all plans:", error);
+    throw new Error("Error fetching all plans.");
+  }
+}
 
 export async function updatePlan(
   id: number,
@@ -121,30 +110,21 @@ export async function updatePlan(
     });
     return { success: true, response: updatedPlan };
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    } else {
-      return { success: false };
-    }
+    console.error("Error updating plan:", error);
+    throw new Error("Error updating plan.");
   }
 }
-
-// DELETE PLAN
 
 export async function deletePlan(
   id: number
-): Promise<{ success: boolean; response?: any }> {
+): Promise<{ success: boolean }> {
   try {
-    const deletedPlan = await prisma.plan.delete({
+    await prisma.plan.delete({
       where: { planId: id },
     });
-    return { success: true, response: deletedPlan };
+    return { success: true };
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    } else {
-      return { success: false };
-    }
+    console.error("Error deleting plan:", error);
+    throw new Error("Error deleting plan.");
   }
 }
-

@@ -1,0 +1,31 @@
+.tile-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea */
+    gap: 10px; /* Espacio entre los elementos */
+    display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+
+  }
+  
+  .tile-container > * {
+    flex: 1 1 calc(25% - 16px); /* 4 elementos por fila */
+    box-sizing: border-box; /* Garantiza que padding no afecte el ancho */
+  }
+  
+  @media (max-width: 1200px) {
+    .tile-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .tile-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .tile-container {
+      grid-template-columns: 1fr;
+    }
+  }
