@@ -3,7 +3,7 @@
 import { useDropzone } from 'react-dropzone';
 import { useCallback } from 'react';
 
-const useDragAndDrop = (onDrop) => {
+const useDragAndDrop = (onDrop: (acceptedFiles: File[]) => void) => {
   const {
     getRootProps,
     getInputProps,
@@ -11,7 +11,7 @@ const useDragAndDrop = (onDrop) => {
     isDragActive,
     isDragReject,
   } = useDropzone({
-    accept: 'image/*', // Acepta solo imágenes
+    accept: { 'image/*': [] }, // Acepta solo imágenes
     onDrop,
   });
 
