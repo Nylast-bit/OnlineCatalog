@@ -31,3 +31,12 @@ model plan {
   description String?
   note String?
 }
+
+model user {
+  userId Int @id @default(autoincrement())
+  userName String
+  userEmail String @unique
+  userPassword String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

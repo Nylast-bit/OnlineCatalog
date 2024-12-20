@@ -26,6 +26,8 @@ export async function planExists(
   }
 }
 
+// Creare plam
+
 export async function createPlan(
   planType: String,
   planName: String,
@@ -59,3 +61,90 @@ export async function createPlan(
     }
   }
 }
+
+//GET ALL PLANS
+export async function getAllPlans(): Promise<{ success: boolean; response?: any }> {
+  try {
+    const plans = await prisma.plan.findMany(); // Recupera todos los planes
+    return { success: true, response: plans };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      return { success: false };
+    }
+  }
+}
+
+
+// READ PLAN BY ID
+export async function readPlanById(
+  id: number
+): Promise<{ success: boolean; response?: any }> {
+  try {
+    const plan = await prisma.plan.findUnique({
+      where: { planId: id },
+    });
+    if (plan) {
+      return { success: true, response: plan };
+    } else {
+      return { success: false, response: "Plan not found" };
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      return { success: false };
+    }
+  }
+}
+
+
+//UPDATE PLAN 
+
+export async function updatePlan(
+  id: number,
+  updatedData: {
+    planType?: string;
+    planName?: string;
+    planFeatures?: string;
+    planPrice?: number;
+    planImage?: string;
+    description?: string;
+    note?: string;
+  }
+): Promise<{ success: boolean; response?: any }> {
+  try {
+    const updatedPlan = await prisma.plan.update({
+      where: { planId: id },
+      data: updatedData,
+    });
+    return { success: true, response: updatedPlan };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      return { success: false };
+    }
+  }
+}
+
+// DELETE PLAN
+
+export async function deletePlan(
+  id: number
+): Promise<{ success: boolean; response?: any }> {
+  try {
+    const deletedPlan = await prisma.plan.delete({
+      where: { planId: id },
+    });
+    return { success: true, response: deletedPlan };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      return { success: false };
+    }
+  }
+}
+
