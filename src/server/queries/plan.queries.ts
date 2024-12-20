@@ -62,3 +62,67 @@ export async function createPlan(
     }
   }
 }
+
+export async function getPlanById(
+  id: number
+): Promise<{ success: boolean; response?: any }> {
+  try {
+    const plan = await prisma.plan.findUnique({
+      where: { planId: id },
+    });
+    return plan
+      ? { success: true, response: plan }
+      : { success: false, response: "Plan not found" };
+  } catch (error) {
+    console.error("Error fetching plan by ID:", error);
+    throw new Error("Error fetching plan by ID.");
+  }
+}
+
+export async function getAllPlans(): Promise<{ success: boolean; response?: any }> {
+  try {
+    const plans = await prisma.plan.findMany();
+    return { success: true, response: plans };
+  } catch (error) {
+    console.error("Error fetching all plans:", error);
+    throw new Error("Error fetching all plans.");
+  }
+}
+
+export async function updatePlan(
+  id: number,
+  updatedData: {
+    planType?: string;
+    planName?: string;
+    planFeatures?: string;
+    planPrice?: number;
+    planImage?: string;
+    description?: string;
+    note?: string;
+  }
+): Promise<{ success: boolean; response?: any }> {
+  try {
+    const updatedPlan = await prisma.plan.update({
+      where: { planId: id },
+      data: updatedData,
+    });
+    return { success: true, response: updatedPlan };
+  } catch (error) {
+    console.error("Error updating plan:", error);
+    throw new Error("Error updating plan.");
+  }
+}
+
+export async function deletePlan(
+  id: number
+): Promise<{ success: boolean }> {
+  try {
+    await prisma.plan.delete({
+      where: { planId: id },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting plan:", error);
+    throw new Error("Error deleting plan.");
+  }
+}
