@@ -17,7 +17,7 @@ const Tile = () => {
     >
         <p><b>Nombre:</b> GPS J16</p>
         <p><b>Caracteristicas:</b> 4G, Hasta 24 horas de bateria, Geocerca</p>
-        <p><b>Precio:</b> $1.000</p>
+        <p><b>Precio: RD$</b> 1.000</p>
         <CustomButton title="Guardar" handleClick={handleClick} containerStyles="bg-primary-500 text-white w-full rounded-lg h-15 mt-4" />
     </Card> 
 

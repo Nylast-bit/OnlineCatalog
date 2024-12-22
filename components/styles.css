@@ -3,7 +3,7 @@
     flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea */
     gap: 10px; /* Espacio entre los elementos */
     display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
 
   }
   
