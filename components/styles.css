@@ -27,5 +27,12 @@
   @media (max-width: 480px) {
     .tile-container {
       grid-template-columns: 1fr;
+      
     }
+  }
+
+  .btnstyles:hover {
+    transition: all 0.3s ease-in-out;
+    background-color: #00372F;
+    color: #FFF;
   }

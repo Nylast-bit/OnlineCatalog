@@ -6,6 +6,8 @@ import { useDropzone } from 'react-dropzone';
 import { uploadImage } from '@/server/APIs/cloudinary.api';
 import CustomButton from './CustomButton';
 import Swal from 'sweetalert2';
+import { createDevice } from '@/server/queries/device.queries';
+import { time } from 'console';
 
 const DeviceForm = () => {
     const [images, setImages] = useState<string[]>([]);
@@ -41,6 +43,8 @@ const DeviceForm = () => {
     try {
         const url = await uploadImage(file);
         setImageUrl(url);
+        const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+        await sleep(1000); // Pausar por 1 segundo
         console.log("Image URL:", imageUrl); // Haz algo con la URL de la imagen
     } catch (error) {
         console.error("Image upload failed:", error);
@@ -53,20 +57,22 @@ const handleClick = async (e: any) => {
   
     if (selectedFile) await handleUpload(selectedFile);
       
-        // createPlan(
-        //   planType,
-        //   planName,
-        //   planFeatures,
-        //   parseFloat(planPrice),
-        //   imageUrl,
-        //   planDescription,
-        //   notes
-        // );
-      
+        createDevice(
+          deviceType,
+          deviceName,
+          deviceFeatures,
+          parseFloat(devicePrice),
+          imageUrl,
+          deviceDescription,
+          notes
+        );
+        
+        
+        console.log(imageUrl)
         Swal.fire({
           icon: 'success',
-          title: 'Plan guardado',
-          text: 'El plan ha sido guardado exitosamente.',
+          title: 'Dispositivo guardado',
+          text: 'El Dispositivo ha sido guardado exitosamente.',
           confirmButtonText: 'OK',
           customClass: {
             confirmButton: 'bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600',
