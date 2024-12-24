@@ -27,7 +27,7 @@ const PlanForm = () => {
   const [planFeatures, setPlanFeatures] = useState('');
   const [planPrice, setPlanPrice] = useState('');
   const [planDescription, setPlanDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState(''); 
+
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const newImages = acceptedFiles.map((file) => {
@@ -47,12 +47,12 @@ const PlanForm = () => {
   } = useDropzone( { onDrop } );  
 
   const selectedFile = acceptedFiles[0];
+  let url = "";
 
   async function handleUpload(file: File) {
     try {
         const url = await uploadImage(file);
-        setImageUrl(url);
-        console.log("Image URL:", imageUrl); // Haz algo con la URL de la imagen
+        console.log("Image URL:", url); // Haz algo con la URL de la imagen
     } catch (error) {
         console.error("Image upload failed:", error);
     }
@@ -60,45 +60,51 @@ const PlanForm = () => {
 
   const handleClick = async (e: any) => {
     e.preventDefault();
-    handleUpload(selectedFile);
+
   
-    if (selectedFile) await handleUpload(selectedFile);
+    if (selectedFile && planType && planName && planFeatures && planPrice && planDescription) {
       
+      try {
+        handleUpload(selectedFile);
         createPlan(
           planType,
           planName,
           planFeatures,
           parseFloat(planPrice),
-          imageUrl,
+          url,
           planDescription,
           notes
         );
+      } catch (error) {
+        console.error("upload failed:", error);
+      }
       
-        Swal.fire({
-          icon: 'success',
-          title: 'Plan guardado',
-          text: 'El plan ha sido guardado exitosamente.',
-          confirmButtonText: 'OK',
-          customClass: {
-            confirmButton: 'bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600',
-            cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400',
-          },
-        });
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Plan guardado',
+        text: 'El plan ha sido guardado exitosamente.',
+        confirmButtonText: 'OK',
+        customClass: {
+          confirmButton: 'bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600',
+          cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400',
+        },
+      });
 
-        // Swal.fire({
-        //     icon: 'warning',
-        //     title: 'Error',
-        //     text: 'Por favor, seleccione una opción antes de continuar.',
-        //     confirmButtonText: 'OK',
-        //     customClass: {
-        //       confirmButton: 'bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600',
-        //       cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400',
-        //     },
-            
-        //   });
+    } else { 
 
-
-    
+      Swal.fire({
+        icon: 'warning',
+        title: 'Error',
+        text: 'Por favor, rellene todos los campos antes de continuar.',
+        confirmButtonText: 'OK',
+        customClass: {
+        confirmButton: 'bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600',
+        cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400',
+        },
+              
+      });
+    } 
   };
 
   return (

@@ -22,12 +22,7 @@ const AdminFormSection: React.FC<AdminFormSectionProps> = ({ fields }) => {
           key={field.name}
           label={field.label}
           onChange={field.onChange}
-          // Aplica una clase de texto blanco para que sea consistente en todo el formulario
-          inputProps={{
-            className: 'text-white',
-            type: field.type,
-            value: field.value,
-          }}
+         
         />
       ))}
     </div>
