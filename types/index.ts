@@ -13,6 +13,7 @@ export interface SearchListProps {
 }
 
 export interface CustomTileProps {
+    id: number;
     Name: string;
     Features: string;
     Price: string;
