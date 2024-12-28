@@ -6,6 +6,8 @@ import { useDropzone } from 'react-dropzone';
 import { uploadImage } from '@/server/APIs/cloudinary.api';
 import CustomButton from './CustomButton';
 import Swal from 'sweetalert2';
+import { createDevice } from '@/server/queries/device.queries';
+import { time } from 'console';
 
 const DeviceForm = () => {
     const [images, setImages] = useState<string[]>([]);
@@ -16,7 +18,6 @@ const DeviceForm = () => {
   const [deviceFeatures, setDeviceFeatures] = useState('');
   const [devicePrice, setDevicePrice] = useState('');
   const [deviceDescription, setDeviceDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState(''); 
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const newImages = acceptedFiles.map((file) => {
@@ -26,6 +27,7 @@ const DeviceForm = () => {
 
     // Guardar las imágenes en el estado
     setImages((prevImages) => [...prevImages, ...newImages]);
+
   }, []);
   
   const { 
@@ -36,58 +38,84 @@ const DeviceForm = () => {
   } = useDropzone( { onDrop } );  
 
   const selectedFile = acceptedFiles[0];
+  let url = "";
 
-  async function handleUpload(file: File) {
+  async function handleUpload(file: File): Promise<string | null> {
     try {
-        const url = await uploadImage(file);
-        setImageUrl(url);
-        console.log("Image URL:", imageUrl); // Haz algo con la URL de la imagen
+      const url = await uploadImage(file); // Suponiendo que esta función devuelve la URL
+      console.log("Image URL:", url);
+      return url; // Devuelve la URL
     } catch (error) {
-        console.error("Image upload failed:", error);
+      console.error("Image upload failed:", error);
+      return null; // Devuelve null en caso de error
     }
-}
+  }
+
 
 const handleClick = async (e: any) => {
     e.preventDefault();
-    handleUpload(selectedFile);
+
+    
+
+    if (selectedFile && deviceType && deviceName && deviceFeatures && devicePrice && deviceDescription) {
+      try {
+        // Esperar a que la imagen se cargue y obtenga la URL
+        const imageUrl = await handleUpload(selectedFile);
   
-    if (selectedFile) await handleUpload(selectedFile);
-      
-        // createPlan(
-        //   planType,
-        //   planName,
-        //   planFeatures,
-        //   parseFloat(planPrice),
-        //   imageUrl,
-        //   planDescription,
-        //   notes
-        // );
-      
+        // Verifica si se obtuvo la URL
+        if (!imageUrl) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al cargar imagen',
+            text: 'No se pudo obtener la URL de la imagen. Intente nuevamente.',
+            confirmButtonText: 'OK',
+          });
+          return;
+        }
+  
+        // Llama a createDevice con todos los parámetros necesarios
+        await createDevice(
+          deviceType,
+          deviceName,
+          deviceFeatures,
+          parseFloat(devicePrice),
+          imageUrl, // Asegúrate de pasar la URL correcta
+          deviceDescription,
+          notes
+        );
+  
+        // Mostrar alerta de éxito
         Swal.fire({
           icon: 'success',
-          title: 'Plan guardado',
-          text: 'El plan ha sido guardado exitosamente.',
+          title: 'Dispositivo guardado',
+          text: 'Dispositivo ha sido guardado exitosamente.',
           confirmButtonText: 'OK',
           customClass: {
             confirmButton: 'bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600',
             cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400',
           },
         });
-
-        // Swal.fire({
-        //     icon: 'warning',
-        //     title: 'Error',
-        //     text: 'Por favor, seleccione una opción antes de continuar.',
-        //     confirmButtonText: 'OK',
-        //     customClass: {
-        //       confirmButton: 'bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600',
-        //       cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400',
-        //     },
-            
-        //   });
-
-
-    
+      } catch (error) {
+        console.error('Error al guardar el dispositivo:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error al guardar el dispositivo. Intente nuevamente.',
+          confirmButtonText: 'OK',
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Error',
+        text: 'Por favor, rellene todos los campos antes de continuar.',
+        confirmButtonText: 'OK',
+        customClass: {
+          confirmButton: 'bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600',
+          cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400',
+        },
+      });
+    }
   };
 
   return (
