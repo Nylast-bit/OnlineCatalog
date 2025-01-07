@@ -8,6 +8,13 @@ import './globals.css'
 import CustomButton from '../../components/CustomButton'
 import TileContainer from '../../components/TileContainer'
 
+/*import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faUser, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
+
+
+library.add(fab, faUser, faEnvelope, faLock)*/
+
 export default function Home() {
   const [device, setDevice] = useState<any>(null) // Estado inicial en null
 

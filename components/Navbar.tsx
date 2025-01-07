@@ -11,7 +11,9 @@ const Navbar = () => {
                 <Image src="/Easylogopng.png" alt="EasyWayGPS Logo" width={160} height={40} className='object-contain' />
             </Link>
 
-            <CustomButton title="Iniciar Sesión" btnType="button" containerStyles=" bg-white text-primary-500 rounded-full min-w-[130px]"/>
+            <Link href= "/Login">
+              <CustomButton title="Iniciar Sesión" btnType="button" containerStyles=" bg-white text-primary-500 rounded-full min-w-[130px]"/>
+            </Link>
         </nav>
 
     </header>
