@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "antd";
+import Card from "antd/lib/card";
 import CustomButton from "./CustomButton";
 import "./styles.css";
 import { CustomTileProps } from "../types";

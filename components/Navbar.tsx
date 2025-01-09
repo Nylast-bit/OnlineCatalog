@@ -31,12 +31,10 @@ const Navbar = () => {
           />
         </Link>
 
-        <CustomButton
-          title="Iniciar Sesión"
-          btnType="button"
-          containerStyles="bg-white text-primary-500 rounded-full min-w-[130px]"
-        />
-      </nav>
+            <Link href= "/Login">
+              <CustomButton title="Iniciar Sesión" btnType="button" containerStyles=" bg-white text-primary-500 rounded-full min-w-[130px]"/>
+            </Link>
+        </nav>
 
       {/* Línea degradada vertical */}
       <div
