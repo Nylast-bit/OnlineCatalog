@@ -8,6 +8,7 @@ const Navbar = () => {
   // Estado para controlar la visibilidad de la línea
   const [showLine, setShowLine] = useState(true);
 
+
   // Efecto para mostrar u ocultar la línea en función del scroll
   useEffect(() => {
     const handleScroll = () => {
