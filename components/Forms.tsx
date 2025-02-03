@@ -21,7 +21,7 @@ export default function Forms() {
     setSelectedOption(event.target.value);
   };
   return (
-    <div className="flex-1 pt-36 padding-x">
+    <div className="flex-1 pt-8 padding-x">
       
     <h1 className="text-4xl font-bold text-center pb-3">Admin Panel</h1>
     <div className="flex w-full max-w-lg px-8 py-8 mx-auto bg-primary-500 rounded-2xl shadow-xl">

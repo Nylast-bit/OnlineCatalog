@@ -44,8 +44,8 @@ export default function TabsLgPill({
   }, []);
 
   return (
-    <section className="max-w-full" aria-multiselectable="false">
-      <ul className="flex items-center gap-2" role="tablist" ref={wrapperRef}>
+    <section className="max-w-full pt-5" aria-multiselectable="false">
+      <ul className="flex gap-2 text-center pl-60 " role="tablist" ref={wrapperRef}>
         {tabLabels.map((label, index) => {
           const tab = index + 1;
           return (
@@ -53,7 +53,7 @@ export default function TabsLgPill({
               <button
                 className={`inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded px-6 text-sm font-medium tracking-wide transition duration-300 focus-visible:outline-none disabled:cursor-not-allowed ${
                   tabSelected.currentTab === tab
-                    ? "bg-emerald-500 text-white hover:bg-emerald-600 focus:bg-emerald-700 disabled:bg-emerald-300"
+                    ? "bg-[#00a68e] text-white hover:bg-[#00a68e] focus:bg-emerald-700 disabled:bg-emerald-300"
                     : "w-full justify-self-center stroke-slate-700 text-slate-700 hover:bg-emerald-50 hover:stroke-emerald-500 hover:text-emerald-500 focus:bg-emerald-50 focus:stroke-emerald-600 focus:text-emerald-600 disabled:text-emerald-300"
                 }`}
                 id={`tab-label-${tab}`}

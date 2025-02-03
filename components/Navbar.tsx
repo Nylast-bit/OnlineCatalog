@@ -38,7 +38,7 @@ const Navbar = () => {
 
       {/* Línea degradada vertical */}
       <div
-        className={`h-[50px] bg-gradient-to-t from-[#00a68e] to-[#00a68e00]  ${
+        className={`h-[25px] bg-gradient-to-t from-[#00a68e] to-[#00a68e00]  ${
           showLine ? 'opacity-100' : 'opacity-0'
         } transition-opacity duration-500 ease-in-out`}
       ></div>
