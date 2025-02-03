@@ -4,7 +4,9 @@ import React from 'react'
 import Image from 'next/image'
 import CustomButton from './CustomButton';
 
+
 const Hero = () => {
+
     const handleScroll = () => {
         
     }
