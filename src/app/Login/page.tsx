@@ -16,9 +16,23 @@ const Login = () => {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-r from-primary-500 to-primary-600">
+    <main className="flex min-h-screen items-center justify-center bg-gray-100">
+      <div className="relative">
+      
+        
+
+
+
       {/* Contenedor principal */}
-      <div className="flex w-full max-w-6xl overflow-hidden rounded-xl shadow-lg">
+      <div className="flex w-full max-w-6xl overflow-hidden rounded-xl shadow-xl mt-[-150px]">
+
+        {/* Flecha para volver */}
+      <a className="absolute mt-[20px] left-5 text-primary-500 text-2xl" href="/">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-9">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+          </svg>
+
+        </a>
         {/* Lado izquierdo - Iniciar sesión */}
         <div className="flex-1 bg-white p-12 flex flex-col items-center justify-center">
           <div className="w-full max-w-md">
@@ -40,7 +54,7 @@ const Login = () => {
             <form onSubmit={handleLogin} className="flex flex-col gap-4">
               {/* Input de Email */}
               <div className="flex flex-col">
-                <label className="text-black mb-0">Correo Electrónico</label>
+                <label className="text-black">Correo Electrónico</label>
                 <CustomInputField
                   label="Correo Electrónico"
                   onChange={(e) => setEmail(e.target.value)}
@@ -49,7 +63,7 @@ const Login = () => {
 
               {/* Input de Contraseña */}
               <div className="flex flex-col">
-                <label className="text-black mb-0">Contraseña</label>
+                <label className="text-black">Contraseña</label>
                 <CustomInputField
                   label="Contraseña"
                   onChange={(e) => setPassword(e.target.value)}
@@ -91,6 +105,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+    </div>
     </main>
   );
 };

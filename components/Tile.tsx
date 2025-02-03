@@ -8,11 +8,11 @@ import Link from "next/link";
 const Tile = ({ id, Name, Features, Price, Image }: CustomTileProps) => {
   const handleClick = async (e: any) => {
     e.preventDefault();
-    console.log("Tile clicked");
   };
 
   return (
     <div className="flex justify-center">
+      <Link href={`/products/${id}`}>
       <Card
         title={Name}
         className="m-5"
@@ -20,10 +20,10 @@ const Tile = ({ id, Name, Features, Price, Image }: CustomTileProps) => {
         hoverable={true}
         cover={
           <img
-            alt="image"
-            src={Image}
-            className="p-3 w-full h-[300px] object-cover"
-          />
+      alt="image"
+      src={Image ? Image : "/default-image.jpg"}  // Imagen de respaldo si 'Image' está vacío
+      className="p-3 w-full h-[300px] object-cover"
+    />
         }
       >
         <p>
@@ -37,15 +37,15 @@ const Tile = ({ id, Name, Features, Price, Image }: CustomTileProps) => {
           <b>Precio: </b>RD$ {parseFloat(Price.toString()).toFixed(2)}<br>
           </br>
         </p>
-          <Link href={`/products/${id}`}>
+          
   <CustomButton
-    title="Guardar"
+    title="Comprar"
     handleClick={() => {}}
     containerStyles="bg-primary-500 text-white w-full rounded-lg h-15 mt-4"
   />
-</Link>
 
       </Card>
+</Link>
     </div>
   );
 };

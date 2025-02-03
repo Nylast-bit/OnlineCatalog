@@ -21,9 +21,16 @@ const TileContainer = () => {
 
   return (
     <div className="tile-container">
+      
       {devices.map((device, index) => (
         <div key={index} className="device-tile">
-          <Tile id={device["deviceId"]} Name={device["deviceName"]} Features={device["deviceFeatures"]} Price={device["devicePrice"]} Image={device["deviceImage"]} />
+          <Tile 
+            id={device["deviceId"]} 
+            Name={device["deviceName"]} 
+            Features={device["deviceFeatures"]} 
+            Price={device["devicePrice"]} 
+            Image={device["deviceImage"]} 
+          />
         </div>
       ))}
     </div>
